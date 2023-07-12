@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'antibody_app.apps.AntibodyAppConfig'
 ]
 
 MIDDLEWARE = [
@@ -76,9 +77,13 @@ WSGI_APPLICATION = 'django_antibody_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'ENGINE':  'django.db.backends.mysql',
+    'NAME': 'antibody',
+    'HOST': 'clvd0-db-u-t-27.thecrick.test',
+    'PORT': 3306,
+    'USER': 'khalid_ab',
+    'PASSWORD': '%U(LkF,JhdNjTaKtUp+G'
+}
 }
 
 
