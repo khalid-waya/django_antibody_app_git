@@ -10,19 +10,19 @@ from .models import Antibody
 #jjjsjsjsj
 
 
-# def antibodyApp(request):
-#     if request.method == 'POST':
-#         form = antibodyForm(request.POST)
-#         if form.is_valid():
-#             return HttpResponseRedirect("Valid Inputs")
-#     else:
-#         antibodyForm()
-#         return render(request, 'antibody_app/templates/myfirst.html', {'form': antibodyForm})
+def create_antibody(request):
+    if request.method == 'POST':
+        form = antibodyForm(request.POST)
+
+        if form.is_valid():
+            print('This is checked')
+            return render(request, 'myfirst.html', {'form': form})
+    else:
+       form = antibodyForm()
+    return render(request, 'myfirst.html', {'form': form})
 
 
-def my_app(request):
-    template = loader.get_template('myfirst.html')
-    return HttpResponse(template.render())
+
 
 # Create your views here.
 #

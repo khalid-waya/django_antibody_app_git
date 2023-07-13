@@ -108,7 +108,7 @@ class AntibodyLoading(models.Model):
         unique_together = (('name', 'host_species', 'clone', 'fluorophore'),)
 
         def __str__(self):
-            return f'The name pf the antiboody is {self.name}, The unique key is {self.unique_together}'
+            return self.name
 
 
 class Assay(models.Model):
@@ -123,7 +123,7 @@ class Assay(models.Model):
         managed = False
         db_table = 'assay'
     def __str__(self):
-        return f'The assay name is {self.assay_name} and the id of the assay is {self.assay_id}'
+        return self.assay_name
 
 class Fluorophore(models.Model):
     fluorophore_id = models.AutoField(primary_key=True)
@@ -138,7 +138,7 @@ class Fluorophore(models.Model):
         db_table = 'fluorophore'
 
     def __str__(self):
-        return f'The fluorophore name is {self.name} and the id of the flurorophore is {self.fluorophore_id}'
+        return self.name
 class Lab(models.Model):
     lab_id = models.AutoField(primary_key=True)
     lab_name = models.CharField(max_length=100)
@@ -150,7 +150,7 @@ class Lab(models.Model):
         db_table = 'lab'
 
     def __str__(self):
-        return f'The lab name is {self.lab_name} and the id of the lab is {self.lab_id}'
+        return self.lab_name
 
 class MetalTag(models.Model):
     metal_tag_id = models.AutoField(primary_key=True)
@@ -165,7 +165,7 @@ class MetalTag(models.Model):
         unique_together = (('metal', 'isotope'),)
 
     def __str__(self):
-        return f'The metal tag name is {self.metal} and the id of the metal tag is {self.metal_tag_id}'
+        return self.metal
 
 
 class OtherTag(models.Model):
@@ -177,7 +177,7 @@ class OtherTag(models.Model):
         db_table = 'other_tag'
 
     def __str__(self):
-        return f'The other tag name is {self.tag_name} and the id of the other tag is {self.other_tag_id}'
+        return self.tag_name
 
 
 class PanelAntibody(models.Model):
@@ -191,7 +191,7 @@ class PanelAntibody(models.Model):
         db_table = 'panel_antibody'
 
     def __str__(self):
-        return f'The Panel Antibody name is {self.panel} and the id of the Panel is {self.panel_antibody_id}'
+        return self.panel
 
 
 class PanelAssay(models.Model):
@@ -215,7 +215,7 @@ class PanelPublication(models.Model):
         db_table = 'panel_publication'
 
     def __str__(self):
-        return f'The Panel Publication name is {self.panel} and the id of the Panel publication is {self.panel_publication_id}'
+        return self.panel
 
 class Species(models.Model):
     species_id = models.AutoField(primary_key=True)
@@ -228,7 +228,7 @@ class Species(models.Model):
         db_table = 'species'
 
     def __str__(self):
-        return f'The Species name is {self.species_name} and the id of the specie is {self.species_id}'
+        return self.species_name
 
 class ZzAntigenReactivity(models.Model):
     spec_id = models.AutoField(primary_key=True)

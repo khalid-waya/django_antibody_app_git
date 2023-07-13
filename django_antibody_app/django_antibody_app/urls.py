@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('antibody_app/', include('antibody_app.urls')),
     path('admin/', admin.site.urls),
-    path('', include('antibody_app.urls'))
+
 ]

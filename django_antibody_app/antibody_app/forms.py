@@ -5,8 +5,10 @@ from .models import *
 class antibodyForm(forms.ModelForm):
     class Meta:
         model = Antibody
-        fields = []
-        help_texts= ('Input a valid name and antigen. These are necessary fields.')
+        fields = ['ab_instance_id', 'name', 'target_antigen', 'host_species','ab_type', 'isotype', 'clone', 'fluorophore', 'metal_tag', 'other_tag','supplier','catalogue_num']
+
+
+        # help_texts= ('Input a valid name and antigen. These are necessary fields.')
 
 
 
