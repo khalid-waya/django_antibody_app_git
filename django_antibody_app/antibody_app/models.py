@@ -56,6 +56,7 @@ class Antibody(models.Model):
     other = models.CharField(max_length=255, blank=True, null=True)
     reactivity1 = models.CharField(max_length=255, blank=True, null=True)
 
+
     class Meta:
         managed = False
         db_table = 'antibody'
@@ -230,24 +231,4 @@ class Species(models.Model):
     def __str__(self):
         return self.species_name
 
-class ZzAntigenReactivity(models.Model):
-    spec_id = models.AutoField(primary_key=True)
-    target_antigen = models.CharField(max_length=45)
-    species_reactivity = models.PositiveIntegerField()
-    specificity_confirmed = models.IntegerField()
 
-    class Meta:
-        managed = False
-        db_table = 'zz_antigen_reactivity'
-        db_table_comment = 'could also be a polyclonal - this is more about species reactivity, antigen, etc.'
-
-
-class ZzCloneSpeciesReactivity(models.Model):
-    clone_species_reactivity_id = models.AutoField(primary_key=True)
-    clone = models.ForeignKey(ZzAntigenReactivity, models.PROTECT, db_column='clone')
-    species_reactivity = models.ForeignKey(Species, models.PROTECT, db_column='species_reactivity', blank=True, null=True)
-    reactivity_tested = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'zz_clone_species_reactivity'

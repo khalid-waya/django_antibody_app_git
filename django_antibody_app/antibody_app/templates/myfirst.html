@@ -7,10 +7,12 @@
 <body>
 
  <div class="container">
+
      <form method="post">
           {{ form.as_table }}
+         {% csrf_token %}
 
-         
+         <input class="submit" type="submit" value="submit form">
      </form>
 
 
@@ -19,7 +21,7 @@
   </div>
 
 {# <form action ="" method="POST">#}
-{#        {% csrf_token %}#}
+
 {##}
 {#        {{ form.non_field_errors }}#}
 {#        <p class="instruct"> Fill in all mandatory fields click Register button</p>#}

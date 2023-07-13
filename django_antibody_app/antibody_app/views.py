@@ -16,6 +16,7 @@ def create_antibody(request):
 
         if form.is_valid():
             print('This is checked')
+            form.save()
             return render(request, 'myfirst.html', {'form': form})
     else:
        form = antibodyForm()
