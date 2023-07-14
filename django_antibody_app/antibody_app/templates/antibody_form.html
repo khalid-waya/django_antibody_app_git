@@ -9,16 +9,29 @@
  <div class="container">
 
      <form method="post">
-          {{ form.as_table }}
-         {% csrf_token %}
+          {{ form.non_field_errors }}
+          <p class = "form_instruction">Please, submit this form:</p>
+          {% csrf_token %}
+         <table class="input_table">
+             <tr>
+                <th>{{ form.name.label }}</th>
+                 <th>{{ form.target_antigen.label }}</th>
+                 <th>{{ form.host_species.label }}</th>
+             </tr>
+
+         </table>
+
+         {{ form.as_table }}
 
          <input class="submit" type="submit" value="submit form">
      </form>
 
 
-    <h1>Hello There!!!</h1>
-    <p>Please, submit this form:</p>
   </div>
+
+ <div id = "return">
+    <a href = "{% url 'welcome' %}" class = "return_homepage">Click to Return to Home page</a>
+</div>
 
 {# <form action ="" method="POST">#}
 

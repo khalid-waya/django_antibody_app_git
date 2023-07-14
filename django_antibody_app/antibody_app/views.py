@@ -8,7 +8,7 @@ from .forms import antibodyForm
 from .models import Antibody
 
 def welcome (request):
-    return render()
+    return render(request, 'welcome_page.html')
 def create_antibody(request):
     if request.method == 'POST':
         form = antibodyForm(request.POST)
