@@ -38,7 +38,12 @@ class Antibody(models.Model):
     ab_instance_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45)
     target_antigen = models.CharField(max_length=45, blank=True, null=True)
-    host_species = models.ForeignKey('Species', models.PROTECT, db_column='host_species', blank=True, null=True)
+    host_species = models.ForeignKey(
+        'Species', models.PROTECT,
+        db_column='host_species',
+        blank=True, null=True,
+        limit_choices_to={'can_be_host': 1}
+    )
     ab_type = models.CharField(db_column='Ab_type', max_length=15, blank=True, null=True)  # Field name made lowercase.
     isotype = models.CharField(max_length=5, blank=True, null=True)
     clone = models.CharField(max_length=25, blank=True, null=True)
