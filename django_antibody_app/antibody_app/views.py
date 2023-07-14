@@ -7,9 +7,8 @@ from .forms import antibodyForm
 
 from .models import Antibody
 
-#jjjsjsjsj
-
-
+def welcome (request):
+    return render()
 def create_antibody(request):
     if request.method == 'POST':
         form = antibodyForm(request.POST)
@@ -17,10 +16,10 @@ def create_antibody(request):
         if form.is_valid():
             print('This is checked')
             form.save()
-            return render(request, 'myfirst.html', {'form': form})
+            return render(request, 'antibody_form.html', {'form': form})
     else:
        form = antibodyForm()
-    return render(request, 'myfirst.html', {'form': form})
+    return render(request, 'antibody_form.html', {'form': form})
 
 
 
