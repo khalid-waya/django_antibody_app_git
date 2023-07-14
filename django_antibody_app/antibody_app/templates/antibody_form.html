@@ -1,11 +1,14 @@
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Antibody Form</title>
 </head>
-<body>
 
+
+<body>
  <div class="container">
 
      <form method="post">
@@ -18,10 +21,86 @@
                  <th>{{ form.target_antigen.label }}</th>
                  <th>{{ form.host_species.label }}</th>
              </tr>
+             <tr>
+                 <td>
+                    {{ form.name.errors }}
+                    {{ form.name }}
+                 </td>
+                <td>
+                    {{ form.target_antigen.errors }}
+                     {{ form.target_antigen }}
+                </td>
+                 <td>
+                    {{ form.host_species.errors }}
+                     {{ form.host_species }}
+                </td>
+
+             </tr>
+
+             <tr>
+                 <th>{{ form.ab_type.label }}</th>
+                 <th>{{ form.isotype.label }}</th>
+                 <th>{{ form.clone.label }}</th>
+                  <th>{{ form.fluorophore.label }}</th>
+             </tr>
+              <tr>
+                 <td>
+                    {{ form.ab_type.errors }}
+                    {{ form.ab_type }}
+                 </td>
+                <td>
+                    {{ form.isotype.errors }}
+                     {{ form.isotype }}
+                </td>
+                 <td>
+                    {{ form.clone.errors }}
+                     {{ form.clone }}
+                </td>
+                  <td>
+                      {{ form.fluorophore.errors }}
+                     {{ form.fluorophore }}
+                  </td>
+
+             </tr>
+
+             <tr>
+                 <th>{{ form.metal_tag.label }}</th>
+                 <th>{{ form.other_tag.label }}</th>
+                 <th>{{ form.supplier.label }}</th>
+             </tr>
+             <tr>
+                 <td>
+                    {{ form.metal_tag.errors }}
+                    {{ form.metal_tag }}
+                 </td>
+                <td>
+                    {{ form.other_tag.errors }}
+                     {{ form.other_tag }}
+                </td>
+                 <td>
+                    {{ form.supplier.errors }}
+                     {{ form.supplier }}
+                </td>
+
+             </tr>
+
+             <tr>
+                 <th>{{ form.supplier.label }}</th>
+                 <th>{{ form.catalogue_num.label }}</th>
+             </tr>
+             <tr>
+                 <td>
+                    {{ form.supplier.errors }}
+                    {{ form.supplier }}
+                 </td>
+                <td>
+                    {{ form.catalogue_num.errors }}
+                     {{ form.catalogue_num }}
+                </td>
+
+             </tr>
 
          </table>
-
-         {{ form.as_table }}
 
          <input class="submit" type="submit" value="submit form">
      </form>
@@ -33,66 +112,8 @@
     <a href = "{% url 'welcome' %}" class = "return_homepage">Click to Return to Home page</a>
 </div>
 
-{# <form action ="" method="POST">#}
-
-{##}
-{#        {{ form.non_field_errors }}#}
-{#        <p class="instruct"> Fill in all mandatory fields click Register button</p>#}
-{#        <table class="input_table">#}
-{#            <tr>#}
-{#                <th>{{ form.ab_instance_id.label }}</th>#}
-{#                <th>{{ form.sent_from.label}}</th>#}
-{##}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>#}
-{#                    {{ form.sample_barcode.errors }}#}
-{#                    {{ form.sample_barcode }}#}
-{#                </td>#}
-{#                <td>#}
-{#                    {{ form.sent_from.errors }}#}
-{#                    {{ form.sent_from }}#}
-{#                </td>#}
-{#                <td>#}
-{#                    {{ form.patient.errors }}#}
-{#                    {{ form.patient }}#}
-{#                </td>#}
-{#                <td>#}
-{#                    {{ form.sample_type.errors }}#}
-{#                    {{ form.sample_type }}#}
-{#                </td>#}
-{#                <td>#}
-{#                    {{ form.sample_name.errors }}#}
-{#                    {{ form.sample_name }}#}
-{#                </td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>{{ form.sample_timepoint.label }}</th>#}
-{#                <th>{{ form.date_sample_collected.label }}</th>#}
-{#                <th>{{ form.biopsy_location.label }}</th>#}
-{#                <th>{{ form.sample_comments.label }}</th>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>#}
-{#                    {{ form.sample_timepoint.errors }}#}
-{#                    {{ form.sample_timepoint }}#}
-{#                </td>#}
-{#                <td>#}
-{#                    {{ form.date_sample_collected.errors }}#}
-{#                    {{ form.date_sample_collected }}#}
-{#                </td>#}
-{#                <td>#}
-{#                    {{ form.biopsy_location.errors }}#}
-{#                    {{ form.biopsy_location }}#}
-{#                </td>#}
-{#                <td>#}
-{#                    {{ form.sample_comments.errors }}#}
-{#                    {{ form.sample_comments }}#}
-{#                </td>#}
-{#            </tr>#}
-{#        </table>#}
-{#        <input class="submit" type="submit" value="register">#}
-{##}
-{#    </form>#}
 </body>
+
+
 </html>
+{#{% endblock %}#}
