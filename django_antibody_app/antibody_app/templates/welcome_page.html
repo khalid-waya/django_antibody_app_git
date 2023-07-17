@@ -1,20 +1,14 @@
-{#{% extends 'base.html' %}#}
-{#{% block content %}#}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends 'base.html' %}
+{% block title %}
+Welcome to Antibody App
+{% endblock %}
 
 
-<body>
+{% block content %}
 <div id = "welcome">
     <h1 id = 'message'>Hello There!!!</h1>
-    <a href="{% url 'antibody_app' %}" class = "access_form_button" > Click to Go to Form</a>
+    <a href="{% url 'create_antibody' %}" class = "access_form_button" > Click to Go to Form</a>
 
 </div>
 
-
-
-</body>
-</html>
-{#{% endblock %}#}
+{% endblock %}

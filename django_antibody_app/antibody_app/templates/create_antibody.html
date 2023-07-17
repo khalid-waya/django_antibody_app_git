@@ -1,15 +1,10 @@
-{#{% extends 'base.html' %}#}
-{#{% block content %}#}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Antibody Form</title>
-</head>
+{% extends 'base.html' %}
+{% block title %}
+Antibody Form
+{% endblock %}
+{% block content %}
 
-
-<body>
- <div class="container">
+{% comment %} <div class="container">
 
      <form method="post">
           {{ form.non_field_errors }}
@@ -106,14 +101,23 @@
      </form>
 
 
-  </div>
+  </div>{% endcomment %}
 
  <div id = "return">
     <a href = "{% url 'welcome' %}" class = "return_homepage">Click to Return to Home page</a>
 </div>
+ <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <button id="add-fluorophore-btn" type="button">Add New Fluorophore</button>
+    <button id="add-metal-tag-btn" type="button">Add New Metal Tag</button>
+    <button id="add-other-tag-btn" type="button">Add New Other Tag</button>
 
-</body>
+    <div id="fluorophore-form-container"></div>
+    <div id="metal-tag-form-container"></div>
+    <div id="other-tag-form-container"></div>
 
-
-</html>
-{#{% endblock %}#}
+{% endblock %}
