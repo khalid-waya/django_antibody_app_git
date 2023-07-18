@@ -162,8 +162,8 @@ class MetalTag(models.Model):
     metal_tag_id = models.AutoField(primary_key=True)
     metal = models.CharField(max_length=15)
     isotope = models.IntegerField()
-    isotope_txt = models.CharField(max_length=3, blank=True, null=True)
-    description = models.CharField(max_length=18, blank=True, null=True)
+    # isotope_txt = models.CharField(max_length=3, blank=True, null=True)
+    # description = models.CharField(max_length=18, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -171,7 +171,7 @@ class MetalTag(models.Model):
         unique_together = (('metal', 'isotope'),)
 
     def __str__(self):
-        return self.metal
+        return f'{self.isotope}{self.metal}'
 
 
 class OtherTag(models.Model):

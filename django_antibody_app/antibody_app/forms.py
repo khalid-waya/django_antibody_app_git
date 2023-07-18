@@ -13,11 +13,17 @@ class FluorophoreForm(forms.ModelForm):
         model = Fluorophore
         fields = ['name', 'absorption_wavelength', 'emission_wavelength', 'excitation_laser', 'visible_color']
 
+class MetalTagForm(forms.ModelForm):
+    class Meta:
+        model = MetalTag
+        fields = ['metal', 'isotope']
 
+class OtherTagForm(forms.ModelForm):
 
+    class Meta:
+        model = OtherTag
+        fields = ['tag_name']
 
-
-
-# class CSVUploadForm(forms.Form):
-#     csv_file = forms.FileField(label='Upload CSV File', required= False)
+class CSVUploadForm(forms.Form):
+    csv_file = forms.FileField(label='Upload CSV File', required= False)
 

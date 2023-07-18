@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+Welcome to Antibody App
+{% endblock %}
+
+
+{% block content %}
+<!-- other_tag_form.html -->
+<p>Fill in Other Tag Details</p>
+    <br>
+    <br>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+<div id="return">
+    <a href="{% url 'create_antibody' %}" class="return_to_create_antibody">Click to Return to Previous page</a>
+</div>
+
+{% endblock %}
