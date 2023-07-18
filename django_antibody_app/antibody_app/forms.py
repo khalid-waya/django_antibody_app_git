@@ -11,32 +11,11 @@ class antibodyForm(forms.ModelForm):
 class FluorophoreForm(forms.ModelForm):
     class Meta:
         model = Fluorophore
-        fields = ['name']
+        fields = ['name', 'absorption_wavelength', 'emission_wavelength', 'excitation_laser', 'visible_color']
 
-    def save_and_render_html(self):
-        self.instance = self.save(commit=False)
-        html = render_to_string('fluorophore_form.html', {'form': self})
-        return html
 
-class MetalTagForm(forms.ModelForm):
-    class Meta:
-        model = MetalTag
-        fields = ['metal']
 
-    def save_and_render_html(self):
-        self.instance = self.save(commit=False)
-        html = render_to_string('metal_tag_form.html', {'form': self})
-        return html
 
-class OtherTagForm(forms.ModelForm):
-    class Meta:
-        model = OtherTag
-        fields = ['tag_name']
-
-    def save_and_render_html(self):
-        self.instance = self.save(commit=False)
-        html = render_to_string('other_tag_form.html', {'form': self})
-        return html
 
 
 # class CSVUploadForm(forms.Form):

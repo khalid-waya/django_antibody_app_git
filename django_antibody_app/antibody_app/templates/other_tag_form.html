@@ -7,8 +7,8 @@ Welcome to Antibody App
 {% block content %}
 <!-- other_tag_form.html -->
 <form id="other-tag-form" method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
+    {% csrf_token %}
+    {{ form.as_p }}
   <button type="submit">Submit</button>
 </form>
 

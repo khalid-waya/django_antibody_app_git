@@ -6,41 +6,6 @@
 {#    <link rel="shortcut icon" href="{%  static 'images/favicon-16x16.png' %}" >#}
     <link rel="stylesheet" href="{% static 'static/css/css_file.css' %}">
     <title>{% block title %} {% endblock %}</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        // Rest of the JavaScript code remains the same
-
-        $('#add-fluorophore-btn').click(function(e) {
-            e.preventDefault();
-            $.get('/add_fluorophore/', function(data) {
-                if (data.html) {
-                    $('#fluorophore-form-container').html(data.html);
-                }
-            });
-        });
-
-        $('#add-metal-tag-btn').click(function(e) {
-            e.preventDefault();
-            $.get('/add_metal_tag/', function(data) {
-                if (data.html) {
-                    $('#metal-tag-form-container').html(data.html);
-                }
-            });
-        });
-
-        $('#add-other-tag-btn').click(function(e) {
-            e.preventDefault();
-            $.get('/add_other_tag/', function(data) {
-                if (data.html) {
-                    $('#other-tag-form-container').html(data.html);
-                }
-            });
-        });
-
-        // Rest of the JavaScript code remains the same
-    });
-    </script>
 </head>
 <body>
 {% block nav %}

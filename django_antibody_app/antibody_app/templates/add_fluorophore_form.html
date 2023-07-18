@@ -6,11 +6,18 @@ Welcome to Antibody App
 
 {% block content %}
 <!-- fluorophore_form.html -->
-<form id="fluorophore-form" method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Submit</button>
+<p>Fill in Fluorophore Details</p>
+    <br>
+    <br>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
 </form>
+
+<div id="return">
+    <a href="{% url 'create_antibody' %}" class="return_to_create_antibody">Click to Return to Previous page</a>
+</div>
 
 
 {% endblock %}
