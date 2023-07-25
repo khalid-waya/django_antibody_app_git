@@ -1,12 +1,16 @@
+import tempfile
+
 from django.shortcuts import render, redirect
-import csv
+import os
+from antibody_app.services.upload import *
 from .models import *
+# from services import upload
 
 from django.http import HttpResponseRedirect, JsonResponse
 from django.http import HttpResponse
 from django.template import loader
 from django import forms
-from .forms import antibodyForm,  FluorophoreForm, MetalTagForm, OtherTagForm
+from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm
 
 
 def welcome (request):
@@ -69,4 +73,30 @@ def add_other_tag(request):
 
     return render(request, 'add_other_tag_form.html', {'form': form})
 
+def upload_excel(request):
+    if request.method == 'POST':
+        form = ExcelUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                print ("It works")
+                # Get the uploaded Excel file from the form
+                uploaded_file = request.FILES['excel_file']
 
+                # Create a temporary file to store the uploaded content
+                with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as temp_file:
+                    for chunk in uploaded_file.chunks():
+                        temp_file.write(chunk)
+
+                # Process the uploaded file using the upload.py script
+                processUpload(temp_file.name)
+
+                # Delete the temporary file after processing
+                os.remove(temp_file.name)
+
+                return redirect('welcome')  # Redirect to the success page or desired URL
+            except Exception as e:
+                raise Exception(f"Error occurred while uploading data: {e}")
+    else:
+        form = ExcelUploadForm()
+
+    return render(request, 'upload_excel.html', {'form': form})

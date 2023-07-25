@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+Welcome to Antibody App
+{% endblock %}
+
+{% block content %}
+<!-- other_tag_form.html -->
+
+<p>Upload Excel Sheet</p>
+<br>
+<br>
+<div class="form-container">
+  <form action="/upload_excel/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-fields">
+      {{ form.as_p }}
+    </div>
+   {% comment %} <!button type="button" id="browse-excel">Upload Excel</button!>{% endcomment %}
+    <input type="file" id="excel-file" name="excel_file" style="display: none;" accept=".xlsx,.xls">
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('browse-excel').addEventListener('click', function() {
+    document.getElementById('excel-file').click();
+  });
+</script>
+
+<div id="return">
+  <a href="{% url 'create_antibody' %}" class="return_to_create_antibody">Click to Return to Previous page</a>
+</div>
+{% endblock %}

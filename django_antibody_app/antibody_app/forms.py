@@ -24,6 +24,6 @@ class OtherTagForm(forms.ModelForm):
         model = OtherTag
         fields = ['tag_name']
 
-class CSVUploadForm(forms.Form):
-    csv_file = forms.FileField(label='Upload CSV File', required= False)
+class ExcelUploadForm(forms.Form):
+    excel_file = forms.FileField(label='Upload Excel File', required= False, widget=forms.ClearableFileInput(attrs={'accept': '.xlsx, .xls'}))
 

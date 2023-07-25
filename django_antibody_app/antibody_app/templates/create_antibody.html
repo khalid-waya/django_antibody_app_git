@@ -121,6 +121,25 @@ Antibody Form
     <div id="check_other_tag">
     <a href="{% url 'add_other_tag' %}" class="return_homepage">Add New Other Tag</a>
 </div>
+</div>
+    <div id="redirect_to_upload_form">
+    <a href="{% url 'upload_excel' %}" class="return_homepage">upload excel sheet </a>
+</div>
 
+
+{% comment %}
+<form action="/upload_excel/" method="post" >
+    {% csrf_token %}
+    {{ ExcelUploadForm.as_p }}
+    <button type="button" id="browse-excel">Upload Excel</button>
+    <input type="file" id="excel-file" name="excel_file" style="display: none;" accept=".xlsx,.xls">
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById('browse-excel').addEventListener('click', function() {
+        document.getElementById('excel-file').click();
+    });
+</script>{% endcomment %}
 
 {% endblock %}
