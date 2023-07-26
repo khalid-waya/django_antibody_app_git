@@ -1,4 +1,4 @@
-from antibody_app.models import Antibody
+from antibody_app.models import *
 import pandas as pd
 import numpy as np
 # from openpyxl import workbook, load_workbook
@@ -52,19 +52,40 @@ def insertRowsIntoTable(data_dict):
             name_value = data_dict['name'][index]
             if name_value == '':
                 continue
+            host_species_value = data_dict['host_species'][index]
+            if host_species_value == "":
+                host_species_instance = None
+            else:
+                host_species_instance, _ = Species.objects.get_or_create(name=host_species_value)
+            fluorophore_value = data_dict['fluorophore'][index]
+            if fluorophore_value == "":
+                fluorophore_value_instance = None
+            else:
+                fluorophore_value_instance, _ = Fluorophore.objects.get_or_create(name=fluorophore_value)
+
+            metal_tag_value = data_dict['metal'][index]
+            if metal_tag_value == "":
+                metal_tag_instance = None
+            else:
+                metal_tag_instance, _ = MetalTag.objects.get_or_create(name=metal_tag_value)
+            other_tag_value = data_dict['other'][index]
+            if other_tag_value == "":
+                other_tag_instance = None
+            else:
+                other_tag_instance, _ = OtherTag.objects.get_or_create(name=other_tag_value)
 
             antibody_instance = Antibody(
                 name=name_value,
                 target_antigen=data_dict['target_antigen'][index],
-                host_species=data_dict['host_species'][index],
-                ab_type=data_dict['ab_type'][index],
-                isotype= dict['isotype'][index],
-                clone= dict['clone'][index],
-                fluorophore= dict['fluorophore'][index],
-                metal_tag= dict['metal_tag'][index],
-                other_tag= dict['other_tag'][index],
-                supplier= dict['supplier'][index],
-                catalogue_num = dict['catalogue_num'][index]
+                host_species=host_species_instance,
+                ab_type=data_dict['Ab_type'][index],
+                isotype= data_dict['isotype'][index],
+                clone= data_dict['clone'][index],
+                fluorophore= fluorophore_value_instance,
+                metal_tag= metal_tag_instance,
+                other_tag= other_tag_instance,
+                supplier= data_dict['supplier'][index],
+                catalogue_num = data_dict['catalog_num'][index]
                 # Add other fields as needed
             )
             antibody_instance.save()
