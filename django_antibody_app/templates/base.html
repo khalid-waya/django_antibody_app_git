@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+
+{#{% load django_tables2 %}#}
 <head>
     <meta charset="UTF-8">
 {#    <link rel="shortcut icon" href="{%  static 'images/favicon-16x16.png' %}" >#}
     <link rel="stylesheet" href="{% static 'static/css/css_file.css' %}">
-    <title>{% block title %} {% endblock %}</title>
+    <title>Welcome To Antibody App</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
 </head>
 <body>
 {% block nav %}

@@ -8,7 +8,10 @@ Welcome to Antibody App
 <div id = "welcome">
     <h1 id = 'message'>Hello There!!!</h1>
     <a href="{% url 'create_antibody' %}" class = "access_form_button" > Click to Go to Form</a>
-
+    </div>
+    <div id="redirect_to_antibody_table">
+    <a href="{% url 'antibody_table' %}" class="access_table">Go to Tables </a>
+</div>
 </div>
 
 {% endblock %}
