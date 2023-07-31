@@ -20,11 +20,11 @@ class AbPanel(models.Model):
         db_table = 'ab_panel'
 
 
+
 class AbSpeciesReactivity(models.Model):
-    ab_species_reactivity_id = models.AutoField(primary_key=True)
     antibody = models.ForeignKey('Antibody', models.PROTECT, db_column='antibody')
     species_reactivity = models.ForeignKey('Species', models.PROTECT, db_column='species_reactivity', blank=True, null=True)
-    reactivity_tested = models.IntegerField()
+    reactivity_tested = models.BooleanField(default= False)
 
     class Meta:
         managed = False
@@ -59,7 +59,8 @@ class Antibody(models.Model):
     select_for_panel = models.IntegerField(blank=True, null=True)
     metal = models.CharField(max_length=255, blank=True, null=True)
     other = models.CharField(max_length=255, blank=True, null=True)
-    reactivity1 = models.CharField(max_length=255, blank=True, null=True)
+    reactivities = models.ManyToManyField('Species', related_name= 'antibodies', through= 'AbSpeciesReactivity')
+
 
     
 

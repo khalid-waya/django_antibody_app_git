@@ -7,7 +7,7 @@ class antibodyForm(forms.ModelForm):
     # csv_file = forms.FileField(label='Upload CSV File', required=False)
     class Meta:
         model = Antibody
-        fields = ['ab_instance_id', 'name', 'target_antigen', 'host_species','ab_type', 'isotype', 'clone', 'fluorophore', 'metal_tag', 'other_tag','supplier','catalogue_num']
+        fields = ['ab_instance_id', 'name', 'target_antigen', 'host_species','ab_type', 'isotype', 'clone', 'fluorophore', 'metal_tag', 'other_tag','supplier','catalogue_num', 'reactivities']
 class FluorophoreForm(forms.ModelForm):
     class Meta:
         model = Fluorophore

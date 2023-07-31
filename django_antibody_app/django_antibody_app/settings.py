@@ -85,8 +85,8 @@ DATABASES = {
     'HOST': 'clvd0-db-u-t-27.thecrick.test',
     'PORT': 3306,
     'USER': 'khalid_ab',
-    'PASSWORD': os.getenv('DB_PASSWORD')
-}
+    'PASSWORD':'%U(LkF,JhdNjTaKtUp+G'
+    }
 }
 
 
