@@ -6,6 +6,6 @@ class AntibodyFilter(django_filters.FilterSet):
         model = Antibody
         fields = {
             'name': ['icontains'],
-            'target_antigen': ['exact'],
+            'target_antigen': ['icontains'],
             'host_species': ['exact']
         }

@@ -1,17 +1,12 @@
 import tempfile
+import django_tables2 as tables
 from django.shortcuts import render, redirect
 import os
 from antibody_app.services.upload import *
 from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm
 from antibody_app.services.tables import AntibodyTable
 from .models import *
-# from services import upload
-
-from django.http import HttpResponseRedirect, JsonResponse
-from django.http import HttpResponse
-from django.template import loader
-from django import forms
-
+from .services.filters import AntibodyFilter
 
 
 def welcome (request):
@@ -103,6 +98,11 @@ def upload_excel(request):
     return render(request, 'upload_excel.html', {'form': form})
 
 def antibody_table(request):
-    queryset = Antibody.objects.all()  # Fetch all Antibody objects from the database
-    table = AntibodyTable(queryset)  # Create a table instance with the queryset
-    return render(request, 'antibody_table.html', {'table': table})
+    queryset = Antibody.objects.all()
+
+    try:
+        filter = AntibodyFilter(request.GET, queryset=queryset)
+        table = AntibodyTable(filter.qs)
+    except Exception as e:
+        raise Exception(f"Error occured when filtering {e}")
+    return render(request, 'antibody_table.html', {'table': table, 'filter': filter})

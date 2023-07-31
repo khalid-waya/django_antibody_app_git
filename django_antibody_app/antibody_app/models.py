@@ -61,13 +61,14 @@ class Antibody(models.Model):
     other = models.CharField(max_length=255, blank=True, null=True)
     reactivity1 = models.CharField(max_length=255, blank=True, null=True)
 
+    
 
     class Meta:
         managed = False
         db_table = 'antibody'
         unique_together = (('name', 'host_species', 'clone', 'fluorophore'),)
     def __str__(self):
-        return f' The name of the antibody is {self.name}'
+        return self.name
 
 
 class AntibodyAssay(models.Model):

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load django_tables2%}
+{% load django_tables2 %}
+{% load bootstrap5  %}
 
 
 {#{% block title %}#}
@@ -9,7 +10,12 @@
 
 {% block content %}
 
-
  <h1>Antibody Data Table</h1>
-    {% render_table table %}
+
+<form action="" method="get" class="form form-inline">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Search">
+</form>
+
+{% render_table table 'django_tables2/bootstrap.html' %}
 {% endblock %}
