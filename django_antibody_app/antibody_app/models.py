@@ -61,17 +61,11 @@ class Antibody(models.Model):
     other = models.CharField(max_length=255, blank=True, null=True)
     reactivities = models.ManyToManyField('Species', related_name= 'antibodies', through= 'AbSpeciesReactivity')
 
-
-    
-
     class Meta:
         managed = False
         db_table = 'antibody'
-        unique_together = (('name', 'host_species', 'clone', 'fluorophore'),)
     def __str__(self):
         return self.name
-
-
 class AntibodyAssay(models.Model):
     ab_assay_id = models.AutoField(primary_key=True)
     assay = models.ForeignKey('Assay', models.PROTECT, db_column='assay')

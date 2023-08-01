@@ -20,4 +20,4 @@ class AntibodyTable(tables.Table):
     class Meta:
         model = Antibody
         template_name = "django_tables2/bootstrap.html"
-        fields = ('ab_instance_id', 'name', 'target_antigen', 'host_species', 'ab_type', 'isotype', 'clone', 'fluorophore', 'metal_tag', 'other_tag', 'supplier', 'catalogue_num', 'reactivities')
+        fields = ( 'name', 'target_antigen', 'host_species', 'ab_type', 'isotype', 'clone', 'fluorophore', 'metal_tag', 'other_tag', 'supplier', 'catalogue_num', 'reactivities')
