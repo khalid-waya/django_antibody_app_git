@@ -109,13 +109,10 @@ def antibody_table(request):
     return render(request, 'antibody_table.html', {'table': table, 'filter': filter})
 
 
-def update_reactivity(request):
-    if request.method == 'POST':
-        selected_antibodies_json = request.POST.get('selected_antibodies')
-        if selected_antibodies_json:
-            selected_antibodies = json.loads(selected_antibodies_json)
-            abreactivities = Antibody.objects.filter(id__in=selected_antibodies)
-            return render(request, 'update_reactivity.html', {'selected_antibodies': abreactivities})
-
-    # Handle cases where there are no selected antibodies or the request method is not POST
-    return render(request, 'update_reactivity.html', {'selected_antibodies': None})
+def update_reactivity(request, ab_instance_id):
+    try:
+        if request.method == 'GET':
+            antibody = Antibody.objects.get(pk=ab_instance_id)
+    except Antibody.DoesNotExist:
+        antibody = None
+    return render(request, 'update_reactivity.html', {'selected_antibodies': [antibody]})

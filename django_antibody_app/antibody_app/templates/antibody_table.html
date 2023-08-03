@@ -16,8 +16,7 @@
 
 <form id="update-form" method="post">
     {% csrf_token %}
-    <input type="hidden" id="selected_antibodies" name="selected_antibodies" value="">
-     <button type="button" id="update-button">Update Reactivity</button>
+     <button type="input" id="update-button" name = "selected-antibodies">Update Reactivity</button>
     {% render_table table 'django_tables2/bootstrap.html' %}
 
 </form>
@@ -35,16 +34,24 @@
             });
         });
 
-        updateButton.addEventListener('click', function () {
-            const checkedCheckboxes = document.querySelectorAll('input[name="selection"]:checked');
-            if (checkedCheckboxes.length > 0) {
-                const selectedAntibodies = Array.from(checkedCheckboxes).map(checkbox => checkbox.value);
-                document.getElementById('selected_antibodies').value = JSON.stringify(selectedAntibodies);
-                window.open('{% url "update_reactivity" %}', '_blank', 'height=800,width=800');
+ updateButton.addEventListener('click', function () {
+    const checkedCheckboxes = document.querySelectorAll('input[name="selection"]:checked');
+    if (checkedCheckboxes.length > 0) {
+        const selectedAntibodies = Array.from(checkedCheckboxes).map(checkbox => checkbox.value);
+        document.getElementById('selected-antibodies').value = JSON.stringify(selectedAntibodies);
+        document.getElementById('update-form').submit();
+          // Move the window.open call inside the form submission callback
+     if (selectedAntibodies.length === 1) {
+                    const primaryKey = selectedAntibodies[0];
+                    const url = '{% url "update_reactivity" 1  %}';
+                    window.open(url, '_blank', 'height=800,width=800');
                 } else {
-                alert('Please select at least one antibody.');
-            }
-        });
+                    alert('Please select only one antibody to update.');
+                }
+    } else {
+        alert('Please select at least one antibody.');
+    }
+});
 
         reactivityForm.addEventListener('submit', function () {
             updateDialog.style.display = 'none';
