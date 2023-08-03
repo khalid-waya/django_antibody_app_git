@@ -14,6 +14,7 @@ class AbPanel(models.Model):
     owner = models.CharField(max_length=10)
     is_public = models.IntegerField()
     application = models.CharField(max_length=45, blank=True, null=True)
+    antibodies = models.ManyToManyField('Antibody', related_name= 'AbPanel', through= 'PanelAntibody')
 
     class Meta:
         managed = False
@@ -61,9 +62,12 @@ class Antibody(models.Model):
     other = models.CharField(max_length=255, blank=True, null=True)
     reactivities = models.ManyToManyField('Species', related_name= 'antibodies', through= 'AbSpeciesReactivity')
 
+
     class Meta:
         managed = False
         db_table = 'antibody'
+        unique_together = (('name', 'host_species', 'clone', 'fluorophore'),)
+
     def __str__(self):
         return self.name
 class AntibodyAssay(models.Model):

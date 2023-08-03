@@ -15,7 +15,7 @@ class CustomCheckBoxColumn(tables.CheckBoxColumn):
 class AntibodyTable(tables.Table):
     selection = CustomCheckBoxColumn(accessor='pk', orderable=False, verbose_name='Select All Items')
 
-    reactivities = tables.ManyToManyColumn()
+
 
     class Meta:
         model = Antibody

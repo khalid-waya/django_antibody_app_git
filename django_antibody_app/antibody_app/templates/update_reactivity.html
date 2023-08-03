@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+Update Reactivity
+{% endblock %}
+
+{% block content %}
+<h2>Update Reactivity</h2>
+{% if selected_antibodies %}
+<form id="reactivity-form" method="post">
+    {% csrf_token %}
+    <p>Selected Antibodies:</p>
+    <ul>
+        {% for antibody in selected_antibodies %}
+        <li>{{ antibody.name }}</li>
+        <input type="hidden" name="antibodies" value="{{ antibody.pk }}">
+        {% endfor %}
+    </ul>
+    <label for="reactivity_tested">Reactivity Tested:</label>
+    <input type="checkbox" name="reactivity_tested" id="reactivity_tested">
+    <br>
+    <button type="submit">Update</button>
+</form>
+{% else %}
+<p>No antibodies selected.</p>
+{% endif %}
+{% endblock %}

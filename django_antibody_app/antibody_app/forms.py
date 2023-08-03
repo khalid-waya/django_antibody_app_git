@@ -27,3 +27,12 @@ class OtherTagForm(forms.ModelForm):
 class ExcelUploadForm(forms.Form):
     excel_file = forms.FileField(label='Upload Excel File', required= False, widget=forms.ClearableFileInput(attrs={'accept': '.xlsx, .xls'}))
 
+class AbSpeciesReactivityForms(forms.ModelForm):
+
+    class Meta:
+        model = AbSpeciesReactivity
+        fields = ['antibody', 'species_reactivity', 'reactivity_tested']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['antibody'].widget.attrs['readonly'] = True

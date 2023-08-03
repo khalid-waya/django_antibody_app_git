@@ -14,20 +14,42 @@
 </form>
 
 
-{% render_table table 'django_tables2/bootstrap.html' %}
+<form id="update-form" method="post">
+    {% csrf_token %}
+    <input type="hidden" id="selected_antibodies" name="selected_antibodies" value="">
+     <button type="button" id="update-button">Update Reactivity</button>
+    {% render_table table 'django_tables2/bootstrap.html' %}
 
+</form>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const selectAllCheckbox = document.getElementById('select_all');
-    const checkboxes = document.querySelectorAll('input[name="selection"]');
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAllCheckbox = document.getElementById('select_all');
+        const checkboxes = document.querySelectorAll('input[name="selection"]');
+        const updateButton = document.getElementById('update-button');
+        const updateDialog = document.getElementById('update-dialog');
+        const reactivityForm = document.getElementById('reactivity-form');
 
-    selectAllCheckbox.addEventListener('change', function() {
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = selectAllCheckbox.checked;
+        selectAllCheckbox.addEventListener('change', function () {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+
+        updateButton.addEventListener('click', function () {
+            const checkedCheckboxes = document.querySelectorAll('input[name="selection"]:checked');
+            if (checkedCheckboxes.length > 0) {
+                const selectedAntibodies = Array.from(checkedCheckboxes).map(checkbox => checkbox.value);
+                document.getElementById('selected_antibodies').value = JSON.stringify(selectedAntibodies);
+                window.open('{% url "update_reactivity" %}', '_blank', 'height=800,width=800');
+                } else {
+                alert('Please select at least one antibody.');
+            }
+        });
+
+        reactivityForm.addEventListener('submit', function () {
+            updateDialog.style.display = 'none';
         });
     });
-});
 </script>
-
 {% endblock %}
 

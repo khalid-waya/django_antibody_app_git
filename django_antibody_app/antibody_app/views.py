@@ -1,9 +1,10 @@
+import json
 import tempfile
 import django_tables2 as tables
 from django.shortcuts import render, redirect
 import os
 from antibody_app.services.upload import *
-from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm
+from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms
 from antibody_app.services.tables import AntibodyTable
 from .models import *
 from .services.filters import AntibodyFilter
@@ -106,3 +107,15 @@ def antibody_table(request):
     except Exception as e:
         raise Exception(f"Error occured when filtering {e}")
     return render(request, 'antibody_table.html', {'table': table, 'filter': filter})
+
+
+def update_reactivity(request):
+    if request.method == 'POST':
+        selected_antibodies_json = request.POST.get('selected_antibodies')
+        if selected_antibodies_json:
+            selected_antibodies = json.loads(selected_antibodies_json)
+            abreactivities = Antibody.objects.filter(id__in=selected_antibodies)
+            return render(request, 'update_reactivity.html', {'selected_antibodies': abreactivities})
+
+    # Handle cases where there are no selected antibodies or the request method is not POST
+    return render(request, 'update_reactivity.html', {'selected_antibodies': None})
