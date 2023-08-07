@@ -23,6 +23,7 @@ class AbPanel(models.Model):
 
 
 class AbSpeciesReactivity(models.Model):
+    ab_species_reactivity_id = models.AutoField(primary_key=True)
     antibody = models.ForeignKey('Antibody', models.PROTECT, db_column='antibody')
     species_reactivity = models.ForeignKey('Species', models.PROTECT, db_column='species_reactivity', blank=True, null=True)
     reactivity_tested = models.BooleanField(default= False)
@@ -32,7 +33,7 @@ class AbSpeciesReactivity(models.Model):
         db_table = 'ab_species_reactivity'
 
     def __str__(self):
-        return self.ab_species_reactivity_id
+        return f"{self.antibody} - {self.species_reactivity}"
 
 
 class Antibody(models.Model):

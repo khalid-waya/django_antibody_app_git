@@ -1,7 +1,8 @@
 import json
 import tempfile
 import django_tables2 as tables
-from django.shortcuts import render, redirect
+from django.forms import modelformset_factory
+from django.shortcuts import render, redirect, get_object_or_404
 import os
 from antibody_app.services.upload import *
 from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms
@@ -111,8 +112,39 @@ def antibody_table(request):
 
 def update_reactivity(request, ab_instance_id):
     try:
-        if request.method == 'GET':
-            antibody = Antibody.objects.get(pk=ab_instance_id)
+
+        antibody = get_object_or_404(Antibody, pk=ab_instance_id)
+
+        if request.method == 'POST':
+            # form = AbSpeciesReactivityForms(request.POST, instance=antibody)
+            ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
+            qs = antibody.abspeciesreactivity_set.all()
+            formset = ReactivityformSet(request.POST, queryset=qs)
+            #
+            # if count == 0:
+            #     ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
+            #     qs = antibody.abspeciesreactivity_set.none()
+            #     formset = ReactivityformSet(request.POST, queryset=qs)
+            #
+
+            if  formset.is_valid():
+
+                formset.save()
+                return redirect('antibody_table')
+
+        else:
+            ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
+            qs = antibody.abspeciesreactivity_set.all()
+            formset = ReactivityformSet(queryset=qs)
+            if 'delete-form' in request.POST:
+                form_num = int(request.POST['delete-form'])
+                if form_num < formset.total_form_count() :
+                    instance = formset[form_num].instance
+                    instance.delete()
+                    return redirect('update_reactivity', ab_instance_id=ab_instance_id)
+
     except Antibody.DoesNotExist:
-        antibody = None
-    return render(request, 'update_reactivity.html', {'selected_antibodies': [antibody]})
+
+        formset = None
+
+    return render(request, 'update_reactivity.html', { 'formset': formset})
