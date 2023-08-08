@@ -31,7 +31,7 @@ class AbSpeciesReactivityForms(forms.ModelForm):
 
     class Meta:
         model = AbSpeciesReactivity
-        fields = ['antibody', 'species_reactivity', 'reactivity_tested']
+        fields = ['ab_species_reactivity_id','antibody', 'species_reactivity', 'reactivity_tested']
     # species_reactivity = forms.ModelMultipleChoiceField(
     #     queryset=Species.objects.all(),
     #     widget=forms.CheckboxSelectMultiple,

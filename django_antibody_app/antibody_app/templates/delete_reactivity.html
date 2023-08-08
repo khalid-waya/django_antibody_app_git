@@ -7,6 +7,23 @@ Welcome to Antibody App
 {% block content %}
 
 
+<p>Are you sure you want to delete "{{ delete }}" ? </p>
+
+  <form method="post">
+  {% csrf_token %}
+  <table>
+      {% for instance in delete %}
+    {{ form.id }}
+      {{ instance.as_table }}
+
+    <input type="checkbox" name="form_{{ instance.pk }}" />
+    <br>
+  {% endfor %}
+  </table>
+
+
+  <button type="submit">Delete Selected Forms</button>
 </form>
+
 
 {% endblock %}

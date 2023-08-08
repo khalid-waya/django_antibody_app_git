@@ -2,6 +2,8 @@ import json
 import tempfile
 import django_tables2 as tables
 from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
+
 from django.shortcuts import render, redirect, get_object_or_404
 import os
 from antibody_app.services.upload import *
@@ -116,17 +118,10 @@ def update_reactivity(request, ab_instance_id):
         antibody = get_object_or_404(Antibody, pk=ab_instance_id)
 
         if request.method == 'POST':
-            # form = AbSpeciesReactivityForms(request.POST, instance=antibody)
+
             ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
             qs = antibody.abspeciesreactivity_set.all()
             formset = ReactivityformSet(request.POST, queryset=qs)
-            #
-            # if count == 0:
-            #     ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
-            #     qs = antibody.abspeciesreactivity_set.none()
-            #     formset = ReactivityformSet(request.POST, queryset=qs)
-            #
-
             if  formset.is_valid():
 
                 formset.save()
@@ -136,15 +131,35 @@ def update_reactivity(request, ab_instance_id):
             ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
             qs = antibody.abspeciesreactivity_set.all()
             formset = ReactivityformSet(queryset=qs)
-            if 'delete-form' in request.POST:
-                form_num = int(request.POST['delete-form'])
-                if form_num < formset.total_form_count() :
-                    instance = formset[form_num].instance
-                    instance.delete()
-                    return redirect('update_reactivity', ab_instance_id=ab_instance_id)
 
     except Antibody.DoesNotExist:
 
         formset = None
 
-    return render(request, 'update_reactivity.html', { 'formset': formset})
+    return render(request, 'update_reactivity.html', { 'formset': formset,'pk': ab_instance_id})
+
+def delete_reactivity(request, reactivity_id):
+    # # if request == 'GET':
+        reactivity = get_object_or_404(AbSpeciesReactivity, pk=reactivity_id)
+        ab_id = reactivity.antibody.ab_instance_id
+        reactivity.delete()
+    #     if request.method == 'POST':
+    #         instances_to_delete = []
+    #
+    #         for instance in antibody.abspeciesreactivity_set.all():
+    #             instance_key = f'form_{instance.pk}'
+    #             if instance_key in request.POST:
+    #                 instances_to_delete.append(instance)
+    #
+    #         for instance in instances_to_delete:
+    #             instance.delete()
+    #
+    #         return redirect('update_reactivity', ab_instance_id=ab_instance_id)
+    #
+    #     else:
+    #         delete = antibody.abspeciesreactivity_set.all()
+    #
+    #
+    #     return render(request, 'delete_reactivity.html', {'delete': delete})
+    # return redirect('delete_reactivity.html')
+        return redirect(f'/update_reactivity/{ab_id}')

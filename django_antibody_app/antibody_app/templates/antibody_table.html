@@ -14,49 +14,8 @@
 </form>
 
 
-<form id="update-form" method="post">
-    {% csrf_token %}
-     <button type="input" id="update-button" name = "selected-antibodies">Update Reactivity</button>
     {% render_table table 'django_tables2/bootstrap.html' %}
 
-</form>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const selectAllCheckbox = document.getElementById('select_all');
-        const checkboxes = document.querySelectorAll('input[name="selection"]');
-        const updateButton = document.getElementById('update-button');
-        const updateDialog = document.getElementById('update-dialog');
-        const reactivityForm = document.getElementById('reactivity-form');
 
-        selectAllCheckbox.addEventListener('change', function () {
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAllCheckbox.checked;
-            });
-        });
-
- updateButton.addEventListener('click', function () {
-    const checkedCheckboxes = document.querySelectorAll('input[name="selection"]:checked');
-    if (checkedCheckboxes.length > 0) {
-        const selectedAntibodies = Array.from(checkedCheckboxes).map(checkbox => checkbox.value);
-        document.getElementById('selected-antibodies').value = JSON.stringify(selectedAntibodies);
-        document.getElementById('update-form').submit();
-          // Move the window.open call inside the form submission callback
-     if (selectedAntibodies.length === 1) {
-                    const primaryKey = selectedAntibodies[0];
-                    const url = '{% url "update_reactivity" 1  %}';
-                    window.open(url, '_blank', 'height=800,width=800');
-                } else {
-                    alert('Please select only one antibody to update.');
-                }
-    } else {
-        alert('Please select at least one antibody.');
-    }
-});
-
-        reactivityForm.addEventListener('submit', function () {
-            updateDialog.style.display = 'none';
-        });
-    });
-</script>
 {% endblock %}
 

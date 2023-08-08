@@ -4,17 +4,19 @@ Update Reactivity
 {% endblock %}
 
 {% block content %}
+
 <h2>Update Reactivity</h2>
-{% if formset  %}
+
+{#{% if formset  %}#}
 <form id="form-container" method="post">
+  {% csrf_token %}
 {% for reactivity in formset %}
-    {% csrf_token %}
+
     <div class="reactivity-form">
         {{ reactivity.as_table }}
-        <button class="delete-form" value="{{ forloop.counter }}" type="submit">Delete</button> <!-- Add Delete button for each form -->
+        <a id = "delete-form" class="button" href="{% url 'delete_reactivity' reactivity.ab_species_reactivity_id.value %}" >Delete</a>
     </div>
 {% endfor %}
-
 <button id="add-form" type="button">Add reactivity</button>
 <button id="update-form" type="submit">Update</button>
 
@@ -25,9 +27,9 @@ Update Reactivity
 
 </form>
 
-{% else %}
-<p>No antibody selected.</p>
-{% endif %}
+
+{% comment %}<p>No antibody selected.</p>
+{% endif %}{% endcomment %}
 
 <script>
     let reactivityForm = document.querySelectorAll(".reactivity-form");
@@ -35,6 +37,7 @@ Update Reactivity
     let addButton = document.querySelector("#add-form");
     let totalForms = document.querySelector("#id_form-TOTAL_FORMS");
     let formNum = reactivityForm.length - 1;
+    addButton.addEventListener('click', addForm)
 
     function addForm(e) {
         e.preventDefault();
@@ -47,24 +50,8 @@ Update Reactivity
         container.insertBefore(newForm, addButton); // Insert the new form at the end of the list of forms
 
         totalForms.setAttribute('value', `${formNum + 1}`);
-        setupDeleteButtons(); // Setup Delete button event listeners
-    }
 
-    function deleteForm(e) {
-        e.preventDefault();
-        const form = e.target.parentElement;
-        form.remove();
-        formNum--;
-        totalForms.setAttribute('value', `${formNum}`);
     }
-
-    function setupDeleteButtons() {
-        const deleteButtons = document.querySelectorAll('.delete-form');
-        deleteButtons.forEach(button => button.addEventListener('click', deleteForm));
-    }
-
-    addButton.addEventListener('click', addForm);
-    setupDeleteButtons(); // Setup Delete button event listeners initially
 
 </script>
 {% endblock %}
