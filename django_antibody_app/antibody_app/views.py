@@ -136,7 +136,7 @@ def update_reactivity(request, ab_instance_id):
 
         formset = None
 
-    return render(request, 'update_reactivity.html', { 'formset': formset,'pk': ab_instance_id})
+    return render(request, 'update_reactivity.html', { 'formset': formset,'pk': ab_instance_id, 'antibody': antibody})
 
 def delete_reactivity(request, reactivity_id):
     # # if request == 'GET':

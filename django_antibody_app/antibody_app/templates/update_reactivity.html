@@ -5,7 +5,7 @@ Update Reactivity
 
 {% block content %}
 
-<h2>Update Reactivity</h2>
+<h2>Update Reactivity For: {{ antibody.name }}</h2>
 
 {#{% if formset  %}#}
 <form id="form-container" method="post">
@@ -14,7 +14,7 @@ Update Reactivity
 
     <div class="reactivity-form">
         {{ reactivity.as_table }}
-        <a id = "delete-form" class="button" href="{% url 'delete_reactivity' reactivity.ab_species_reactivity_id.value %}" >Delete</a>
+        <a id = "delete-form" class="button" href="{% url 'delete_reactivity' reactivity.ab_species_reactivity_id.value %}" onclick="return confirm('Are you sure?')" >Delete</a>
     </div>
 {% endfor %}
 <button id="add-form" type="button">Add reactivity</button>
@@ -27,22 +27,20 @@ Update Reactivity
 
 </form>
 
-
-{% comment %}<p>No antibody selected.</p>
-{% endif %}{% endcomment %}
-
 <script>
     let reactivityForm = document.querySelectorAll(".reactivity-form");
     let container = document.querySelector("#form-container");
     let addButton = document.querySelector("#add-form");
     let totalForms = document.querySelector("#id_form-TOTAL_FORMS");
-    let formNum = reactivityForm.length - 1;
+    let formNum = reactivityForm.length - 1 ;
+
     addButton.addEventListener('click', addForm)
 
     function addForm(e) {
         e.preventDefault();
 
         let newForm = reactivityForm[0].cloneNode(true);
+
         let formRegex = RegExp('form-(\\d){1}-', 'g');
 
         formNum++; // Increment the form number

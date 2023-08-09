@@ -29,10 +29,29 @@ class ExcelUploadForm(forms.Form):
 
 class AbSpeciesReactivityForms(forms.ModelForm):
 
+    # def __init__(self, *args, **kwargs):
+    #     super( ).__init__(*args, **kwargs)
+    #
+    #     instance = getattr(self, 'instance', None)
+    #
+    #
+    #
+    #     # Check if the form is used for updating an existing record
+    #     if instance:
+    #         self.fields['antibody'].disabled = True
+
     class Meta:
         model = AbSpeciesReactivity
-        fields = ['ab_species_reactivity_id','antibody', 'species_reactivity', 'reactivity_tested']
-    # species_reactivity = forms.ModelMultipleChoiceField(
-    #     queryset=Species.objects.all(),
-    #     widget=forms.CheckboxSelectMultiple,
-    # )
+        fields = ['antibody', 'species_reactivity', 'reactivity_tested']
+    # def __init__(self, *args, **kwargs):
+    #     super(AbSpeciesReactivityForms, self).__init__(*args, **kwargs)
+    #     instance = getattr(self, 'instance', None)
+    #     if instance and instance.pk:
+    #         self.fields['antibody'].widget.attrs['readonly'] = True
+    # def clean_antibody(self):
+    #     instance = getattr(self, 'instance', None)
+    #     if instance and instance.pk:
+    #         return instance.antibody
+    #     else:
+    #         return self.clean_antibody['antibody']
+    #
