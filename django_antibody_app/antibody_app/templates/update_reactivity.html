@@ -5,26 +5,38 @@ Update Reactivity
 
 {% block content %}
 
+<div id="return">
+    <a href="{% url 'antibody_table' %}" class="return_to_create_antibody">Click to Return to Previous page</a>
+</div>
 <h2>Update Reactivity For: {{ antibody.name }}</h2>
 
-{#{% if formset  %}#}
 <form id="form-container" method="post">
   {% csrf_token %}
-{% for reactivity in formset %}
 
-    <div class="reactivity-form">
-        {{ reactivity.as_table }}
-        <a id = "delete-form" class="button" href="{% url 'delete_reactivity' reactivity.ab_species_reactivity_id.value %}" onclick="return confirm('Are you sure?')" >Delete</a>
-    </div>
-{% endfor %}
-<button id="add-form" type="button">Add reactivity</button>
-<button id="update-form" type="submit">Update</button>
+  {% if formset.forms %}
+    {% for reactivity in formset %}
+      <div class="reactivity-form">
+          {{ reactivity.as_table }}
+          <a id="delete-form" class="button" href="{% url 'delete_reactivity' reactivity.ab_species_reactivity_id.value %}" onclick="return confirm('Are you sure?')">Delete</a>
+      </div>
+    {% endfor %}
+       <button id="add-form" name = 'add-form'type="input">Add reactivity</button>
+  {% else %}
+      <div class="reactivity-form">
+        {%  for reactivity in formset %}
+            {{ reactivity.as_table }}
+        {% endfor %}
+      </div>
+       <button id="new-form" name = 'new-form' type="input">Add a New reactivity</button>
+  {% endif %}
 
-<input type="hidden" name="form-TOTAL_FORMS" value="{{ formset.total_form_count }}" id="id_form-TOTAL_FORMS">
-<input type="hidden" name="form-INITIAL_FORMS" value="{{ formset.initial_form_count }}" id="id_form-INITIAL_FORMS">
-<input type="hidden" name="form-MIN_NUM_FORMS" value="0" id="id_form-MIN_NUM_FORMS">
-<input type="hidden" name="form-MAX_NUM_FORMS" value="1000" id="id_form-MAX_NUM_FORMS">
 
+  <button id="update-form" name = 'update-form' type="submit">Update</button>
+
+  <input type="hidden" name="form-TOTAL_FORMS" value="{{ formset.total_form_count }}" id="id_form-TOTAL_FORMS">
+  <input type="hidden" name="form-INITIAL_FORMS" value="{{ formset.initial_form_count }}" id="id_form-INITIAL_FORMS">
+  <input type="hidden" name="form-MIN_NUM_FORMS" value="0" id="id_form-MIN_NUM_FORMS">
+  <input type="hidden" name="form-MAX_NUM_FORMS" value="1000" id="id_form-MAX_NUM_FORMS">
 </form>
 
 <script>
@@ -34,14 +46,14 @@ Update Reactivity
     let totalForms = document.querySelector("#id_form-TOTAL_FORMS");
     let formNum = reactivityForm.length - 1 ;
 
-    addButton.addEventListener('click', addForm)
+addButton.addEventListener('click', addForm);
 
-    function addForm(e) {
-        e.preventDefault();
+function addForm(e) {
+  e.preventDefault();
 
-        let newForm = reactivityForm[0].cloneNode(true);
+  let newForm = reactivityForm[0].cloneNode(true);
 
-        let formRegex = RegExp('form-(\\d){1}-', 'g');
+  let formRegex = RegExp('form-(\\d){1}-', 'g');
 
         formNum++; // Increment the form number
         newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`); // Update the new form to have the correct form number
@@ -50,6 +62,6 @@ Update Reactivity
         totalForms.setAttribute('value', `${formNum + 1}`);
 
     }
-
 </script>
+
 {% endblock %}
