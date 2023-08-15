@@ -22,13 +22,14 @@ Update Reactivity
     {% endfor %}
        <button id="add-form" name = 'add-form'type="input">Add reactivity</button>
   {% else %}
-      <div class="reactivity-form">
-        {%  for reactivity in formset %}
-            {{ reactivity.as_table }}
-        {% endfor %}
-      </div>
-       <button id="new-form" name = 'new-form' type="input">Add a New reactivity</button>
-  {% endif %}
+
+      {% for form in formset %}
+          {{ form.as_p }}
+      {% endfor %}
+
+       <input type="submit" name = 'new-form' value = "Add a New reactivity">
+
+ {% endif %}
 
 
   <button id="update-form" name = 'update-form' type="submit">Update</button>
