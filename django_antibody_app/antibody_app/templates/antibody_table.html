@@ -13,6 +13,12 @@
     <input type="submit" value="Search">
 </form>
 
+    <div class = "panel_redirect">
+      <a href="{% url 'create_panel' %}">
+          <button type="submit"> Create Panels</button>
+      </a>
+    </div>
+
 
     {% render_table table 'django_tables2/bootstrap.html' %}
 

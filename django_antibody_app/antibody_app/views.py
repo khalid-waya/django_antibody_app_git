@@ -153,3 +153,14 @@ def delete_reactivity(request, reactivity_id):
         reactivity.delete()
 
         return redirect(f'/update_reactivity/{ab_id}')
+
+
+def create_panel (request):
+    queryset = Antibody.objects.all()
+
+    try:
+        filter = AntibodyFilter(request.GET, queryset=queryset)
+        table = AntibodyTable(filter.qs)
+    except Exception as e:
+        raise Exception(f"Error occured when filtering {e}")
+    return render(request, 'create_panel.html', {'table': table, 'filter': filter})

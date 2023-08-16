@@ -8,17 +8,17 @@
 from django.db import models
 
 
-class AbPanel(models.Model):
+class Panel(models.Model):
     panel_id = models.AutoField(primary_key=True)
     panel_name = models.CharField(max_length=45)
     owner = models.CharField(max_length=10)
     is_public = models.IntegerField()
     application = models.CharField(max_length=45, blank=True, null=True)
-    antibodies = models.ManyToManyField('Antibody', related_name= 'AbPanel', through= 'PanelAntibody')
+    antibodies = models.ManyToManyField('Antibody', related_name= 'Panel', through= 'PanelAntibody')
 
     class Meta:
         managed = False
-        db_table = 'ab_panel'
+        db_table = 'panel'
 
 
 
@@ -190,7 +190,7 @@ class OtherTag(models.Model):
 class PanelAntibody(models.Model):
     panel_antibody_id = models.AutoField(primary_key=True)
     antibody = models.ForeignKey(Antibody, models.PROTECT, db_column='antibody', blank=True, null=True)
-    panel = models.ForeignKey(AbPanel, models.PROTECT, db_column='panel')
+    panel = models.ForeignKey(Panel, models.PROTECT, db_column='panel')
     ab_dilution = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
@@ -203,7 +203,7 @@ class PanelAntibody(models.Model):
 
 class PanelAssay(models.Model):
     panel_assay_id = models.AutoField(primary_key=True)
-    panel = models.ForeignKey(AbPanel, models.PROTECT, db_column='panel', blank=True, null=True)
+    panel = models.ForeignKey(Panel, models.PROTECT, db_column='panel', blank=True, null=True)
     assay = models.ForeignKey(Assay, models.PROTECT, db_column='assay', blank=True, null=True)
     panel_assay_notes = models.CharField(max_length=255, blank=True, null=True)
 
@@ -214,7 +214,7 @@ class PanelAssay(models.Model):
 
 class PanelPublication(models.Model):
     panel_publication_id = models.AutoField(primary_key=True)
-    panel = models.ForeignKey(AbPanel, models.PROTECT, db_column='panel')
+    panel = models.ForeignKey(Panel, models.PROTECT, db_column='panel')
     publication_details = models.TextField(blank=True, null=True)
 
     class Meta:

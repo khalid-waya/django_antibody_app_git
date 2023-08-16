@@ -1,10 +1,101 @@
-{% extends 'base.html' %}
-{% block title %}
-Welcome to Antibody App
-{% endblock %}
-
+{% load django_tables2 %}
+{% load bootstrap5 %}
 
 {% block content %}
 
+<h1>Antibody Data Table</h1>
 
+<form action="" method="get" class="form form-inline">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Search">
+</form>
+
+<div class="panel_redirect">
+    <a href="{% url 'antibody_table' %}">
+        <button type="submit">Return to table</button>
+    </a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Target Antigen</th>
+            <th>Host Species</th>
+            <!-- Add more header columns for other fields -->
+
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for antibody in table.checkbox %}
+            <tr>
+                <td>{{ antibody.checkbox }}</td>
+            </tr>
+        {% endfor %}
+        {% for antibody in table.data %}
+            <tr>
+                <td>{{ antibody.checkbox }}</td>
+                <td>{{ antibody.name }}</td>
+                <td>{{ antibody.target_antigen }}</td>
+                <td>{{ antibody.host_species }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% comment %}<style>
+    /* Style for the table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    /* Style for buttons */
+    .button {
+        background-color: #007bff;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+    <script>
+    // Add hover effect to table rows
+    const tableRows = document.querySelectorAll("table tbody tr");
+    tableRows.forEach(row => {
+        row.addEventListener("mouseenter", () => {
+            row.style.backgroundColor = "#f0f0f0";
+        });
+        row.addEventListener("mouseleave", () => {
+            row.style.backgroundColor = "transparent";
+        });
+    });
+
+    // Style buttons
+    const buttons = document.querySelectorAll(".button");
+    buttons.forEach(button => {
+        button.addEventListener("mouseenter", () => {
+            button.style.backgroundColor = "#0056b3";
+        });
+        button.addEventListener("mouseleave", () => {
+            button.style.backgroundColor = "#007bff";
+        });
+    });
+</script>{% endcomment %}
 {% endblock %}
