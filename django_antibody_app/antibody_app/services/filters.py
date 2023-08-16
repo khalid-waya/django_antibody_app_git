@@ -7,5 +7,6 @@ class AntibodyFilter(django_filters.FilterSet):
         fields = {
             'name': ['icontains'],
             'target_antigen': ['icontains'],
-            'host_species': ['exact']
+            'host_species': ['exact'],
+            'reactivities': ['exact']
         }

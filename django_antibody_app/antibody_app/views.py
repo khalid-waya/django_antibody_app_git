@@ -1,9 +1,13 @@
+import json
 import tempfile
 import django_tables2 as tables
-from django.shortcuts import render, redirect
+from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
+
+from django.shortcuts import render, redirect, get_object_or_404
 import os
 from antibody_app.services.upload import *
-from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm
+from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms
 from antibody_app.services.tables import AntibodyTable
 from .models import *
 from .services.filters import AntibodyFilter
@@ -106,3 +110,46 @@ def antibody_table(request):
     except Exception as e:
         raise Exception(f"Error occured when filtering {e}")
     return render(request, 'antibody_table.html', {'table': table, 'filter': filter})
+
+
+
+
+def update_reactivity(request, ab_instance_id):
+    antibody = get_object_or_404(Antibody, pk=ab_instance_id) #obtain the instance of 'antibody' that you wan to update
+
+    #Creates a model formset factory with no extra fields for AbSpeciesReactivity using AbSpeciesReactivityForms
+    reactivityform_set = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
+
+    #Fetch all AbSpeciesReactivity instances for the antibody using the query sert
+    qs = antibody.abspeciesreactivity_set.all()
+
+
+    if request.method == 'POST':
+
+        if 'new-form' in request.POST:
+            print("1")
+            initial_data = [{'antibody': antibody}]
+            reactivityform_set = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=1)
+            qs = antibody.abspeciesreactivity_set.all()
+
+            formset = reactivityform_set(queryset= qs, initial = initial_data)
+        elif 'update-form' in request.POST:
+            print("2")
+            formset = reactivityform_set(request.POST, queryset=qs)
+            if formset.is_valid():
+                print("3")
+
+                formset.save()
+                return redirect('antibody_table')
+
+    else:
+        formset = reactivityform_set(queryset=qs)
+    return render(request,'update_reactivity.html', {'formset': formset, 'pk': ab_instance_id, 'antibody': antibody})
+
+def delete_reactivity(request, reactivity_id):
+
+        reactivity = get_object_or_404(AbSpeciesReactivity, pk=reactivity_id)
+        ab_id = reactivity.antibody.ab_instance_id
+        reactivity.delete()
+
+        return redirect(f'/update_reactivity/{ab_id}')
