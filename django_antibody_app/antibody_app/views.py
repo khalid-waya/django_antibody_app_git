@@ -112,62 +112,7 @@ def antibody_table(request):
     return render(request, 'antibody_table.html', {'table': table, 'filter': filter})
 
 
-# def update_reactivity(request, ab_instance_id):
-#     try:
-#
-#         antibody = get_object_or_404(Antibody, pk=ab_instance_id)
-#
-#         if request.method == 'POST':
-#
-#             ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
-#             qs = antibody.abspeciesreactivity_set.all()
-#             formset = ReactivityformSet(request.POST, queryset=qs)
-#             if  formset.is_valid():
-#
-#                 formset.save()
-#                 return redirect('antibody_table')
-#
-#         else:
-#             ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
-#             qs = antibody.abspeciesreactivity_set.all()
-#             formset = ReactivityformSet(queryset=qs)
-#
-#     except Antibody.DoesNotExist:
-#
-#         formset = None
-#
-#     return render(request, 'update_reactivity.html', { 'formset': formset,'pk': ab_instance_id, 'antibody': antibody})
-# def update_reactivity(request, ab_instance_id):
-#     try:
-#         antibody = get_object_or_404(Antibody, pk=ab_instance_id)
-#         ReactivityformSet = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
-#         qs = antibody.abspeciesreactivity_set.all()
-#
-#
-#         if not qs.exists():  # Check if abspeciesreactivity_set is empty, if so create a new form
-#             new_species_reactivity = AbSpeciesReactivity(antibody=antibody)
-#             formset = ReactivityformSet(request.POST, queryset=AbSpeciesReactivity.objects.none(), initial=[new_species_reactivity])
-#         else:  # If it is not empty, render the already existing instances
-#             formset = ReactivityformSet(queryset=qs)
-#
-#         # Check if the request method is POST
-#         if request.method == 'POST':
-#             form = AbSpeciesReactivityForms(request.POST, instance=antibody)
-#             if 'update-form' in request.POST:
-#                 if form.is_valid() and formset.is_valid():
-#                     form.save()
-#                     formset.save()
-#                     return redirect('antibody_table')
-#
-#
-#         else:
-#             form = AbSpeciesReactivityForms(instance=antibody)
-#
-#     except Antibody.DoesNotExist:
-#         formset = None
-#         form = None
-#
-#     return render(request, 'update_reactivity.html', {'formset': formset, 'form': form, 'pk': ab_instance_id, 'antibody': antibody})
+
 
 def update_reactivity(request, ab_instance_id):
     antibody = get_object_or_404(Antibody, pk=ab_instance_id) #obtain the instance of 'antibody' that you wan to update
@@ -186,15 +131,14 @@ def update_reactivity(request, ab_instance_id):
             initial_data = [{'antibody': antibody}]
             reactivityform_set = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=1)
             qs = antibody.abspeciesreactivity_set.all()
-            # request.POST,queryset=qs
+
             formset = reactivityform_set(queryset= qs, initial = initial_data)
         elif 'update-form' in request.POST:
             print("2")
             formset = reactivityform_set(request.POST, queryset=qs)
             if formset.is_valid():
                 print("3")
-                # for form in formset:
-                #     form.instance.antibody = antibody
+
                 formset.save()
                 return redirect('antibody_table')
 
