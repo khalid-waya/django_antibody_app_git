@@ -183,11 +183,11 @@ def update_reactivity(request, ab_instance_id):
 
         if 'new-form' in request.POST:
             print("1")
-
+            initial_data = [{'antibody': antibody}]
             reactivityform_set = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=1)
             qs = antibody.abspeciesreactivity_set.all()
             # request.POST,queryset=qs
-            formset = reactivityform_set(queryset= qs)
+            formset = reactivityform_set(queryset= qs, initial = initial_data)
         elif 'update-form' in request.POST:
             print("2")
             formset = reactivityform_set(request.POST, queryset=qs)
