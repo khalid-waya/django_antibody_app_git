@@ -7,10 +7,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 import os
 from antibody_app.services.upload import *
-from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms
-from antibody_app.services.tables import AntibodyTable
+from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms, PanelForm
+from antibody_app.services.tables import AntibodyTable, PanelTable
 from .models import *
-from .services.filters import AntibodyFilter
+from .services.filters import AntibodyFilter, PanelFilter
 
 
 def welcome (request):
@@ -107,9 +107,17 @@ def antibody_table(request):
     try:
         filter = AntibodyFilter(request.GET, queryset=queryset)
         table = AntibodyTable(filter.qs)
+        if request.method == 'POST':
+            form = PanelForm(request.POST)
+            if form.is_valid():
+                print("It saved")
+                form.save()
+                # return redirect('create_panel')
+        else:
+            form = PanelForm()
     except Exception as e:
         raise Exception(f"Error occured when filtering {e}")
-    return render(request, 'antibody_table.html', {'table': table, 'filter': filter})
+    return render(request, 'antibody_table.html', {'table': table, 'filter': filter, 'form': form})
 
 
 
@@ -156,5 +164,8 @@ def delete_reactivity(request, reactivity_id):
 
 
 def create_panel (request):
+    panel = Panel.objects.all()
+    filter = PanelFilter(request.GET, queryset=panel)
+    table = PanelTable(filter.qs)
 
-    return render(request, 'create_panel.html')
+    return render(request, 'create_panel.html', {'table': table, 'filter': filter})

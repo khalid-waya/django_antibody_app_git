@@ -13,15 +13,90 @@
     <input type="submit" value="Search">
 </form>
 
+<form method="post" name="panel-name">
+    {% csrf_token %}
+     {{ form.as_table }}
+<input type="submit" value = "Create Panel">
+</form>
     <div class = "panel_redirect">
       <a href="{% url 'create_panel' %}">
-          <button type="submit" value = "create"> Create Panels</button>
+          <button type="submit" value = "create"> Go to
+              Panel Table </button>
       </a>
     </div>
 
+{#<form method="post" name="antibody">#}
+{#  {% csrf_token %}#}
+{#    {% render_table table 'django_tables2/bootstrap.html' %}#}
+{#</form>#}
 
-    {% render_table table 'django_tables2/bootstrap.html' %}
+
+<form id ="antibody-form" method = "post">
+    {% csrf_token %}
+    <table id ="antibody-table" class = "table">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="select-all"></th>
+            <th>Name</th>
+            <th>Target Antigen</th>
+            <th>Host Species</th>
+            <th>Ab Type</th>
+            <th>Isotype </th>
+            <th>Clone</th>
+            <th>flourophore</th>
+            <th>Metal Tag</th>
+            <th>Other Tag</th>
+            <th>Supplier </th>
+            <th>Catalogue</th>
+            <th>Reactivities</th>
+            <th>Update</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for antibody in filter.qs %}
+            <tr>
+               <td><input type="checkbox" class="record-checkbox" name="selected_antibody" value="{{ antibody.ab_instance_id }}"></td>
+              <td>{{ antibody.name }}</td>
+              <td>{{ antibody.target_antigen }}</td>
+              <td>{{ antibody.host_species }}</td>
+              <td>{{ antibody.ab_type }}</td>
+              <td>{{ antibody.isotype }}</td>
+              <td>{{ antibody.clone }}</td>
+              <td>{{ antibody.flourophore }}</td>
+              <td>{{ antibody.metal_tag }}</td>
+              <td>{{ antibody.other_tag }}</td>
+              <td>{{ antibody.supplier	 }}</td>
+              <td>{{ antibody.catalogue	 }}</td>
+                 <td>
+                        <ol type="i">
+                            {% for reactivity in antibody.reactivities.all %}
+                                <li>{{ reactivity }}</li>
+                            {% endfor %}
+                        </ol>
+                </td>
+              <td><a href="{% url 'update_reactivity' antibody.ab_instance_id %}">Update Reactivity</a></td>
+             </tr>
+        {% endfor %}
 
 
+
+    </tbody>
+</table>
+</form>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectAllCheckbox = document.getElementById("select-all");
+        const recordCheckboxes = document.querySelectorAll(".record-checkbox");
+
+        selectAllCheckbox.addEventListener("change", function () {
+            const isChecked = this.checked;
+            recordCheckboxes.forEach(function (checkbox) {
+                checkbox.checked = isChecked;
+            });
+        });
+    });
+</script>
 {% endblock %}
 

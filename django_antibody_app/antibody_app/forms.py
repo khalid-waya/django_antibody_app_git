@@ -33,6 +33,7 @@ class AbSpeciesReactivityForms(forms.ModelForm):
         model = AbSpeciesReactivity
         fields = ['antibody', 'species_reactivity', 'reactivity_tested']
 
-class PanlForm (forms.ModelForm):
+class PanelForm (forms.ModelForm):
     class Meta:
         model = Panel
+        fields = ['panel_name', 'is_public']

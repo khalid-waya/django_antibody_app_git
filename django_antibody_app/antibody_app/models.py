@@ -12,7 +12,7 @@ class Panel(models.Model):
     panel_id = models.AutoField(primary_key=True)
     panel_name = models.CharField(max_length=45)
     owner = models.CharField(max_length=10)
-    is_public = models.IntegerField()
+    is_public = models.BooleanField(default= False)
     application = models.CharField(max_length=45, blank=True, null=True)
     antibodies = models.ManyToManyField('Antibody', related_name= 'Panel', through= 'PanelAntibody')
 
