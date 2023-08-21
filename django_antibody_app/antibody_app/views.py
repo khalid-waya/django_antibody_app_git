@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 import os
 from antibody_app.services.upload import *
-from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms, PanelForm
+from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms, Panelform
 from antibody_app.services.tables import AntibodyTable, PanelTable
 from .models import *
 from .services.filters import AntibodyFilter, PanelFilter
@@ -108,13 +108,18 @@ def antibody_table(request):
         filter = AntibodyFilter(request.GET, queryset=queryset)
         table = AntibodyTable(filter.qs)
         if request.method == 'POST':
-            form = PanelForm(request.POST)
+            form = Panelform(request.POST)
             if form.is_valid():
-                print("It saved")
-                form.save()
-                # return redirect('create_panel')
+
+                panel = form.save()
+                antibody = request.POST.getlist("selected_antibody")
+                for id in antibody:
+                    ab_id = Antibody.objects.get(ab_instance_id= id)
+                    ab = panel.antibodies.add(ab_id)
+
+                return redirect('create_panel')
         else:
-            form = PanelForm()
+            form = Panelform()
     except Exception as e:
         raise Exception(f"Error occured when filtering {e}")
     return render(request, 'antibody_table.html', {'table': table, 'filter': filter, 'form': form})

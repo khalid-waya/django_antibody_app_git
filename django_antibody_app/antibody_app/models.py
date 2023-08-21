@@ -198,7 +198,7 @@ class PanelAntibody(models.Model):
         db_table = 'panel_antibody'
 
     def __str__(self):
-        return self.panel
+        return self.panel.panel_name
 
 
 class PanelAssay(models.Model):

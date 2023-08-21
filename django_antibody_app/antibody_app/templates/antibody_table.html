@@ -12,18 +12,20 @@
     {{ filter.form.as_p }}
     <input type="submit" value="Search">
 </form>
+{##}
+{#<form method="post" name="panel-name">#}
+{#    {% csrf_token %}#}
+{#     {{ form.as_table}}#}
+{#  #}
+{#<input type="submit" value = "Create Panel">#}
+{#</form>#}
 
-<form method="post" name="panel-name">
-    {% csrf_token %}
-     {{ form.as_table }}
-<input type="submit" value = "Create Panel">
-</form>
-    <div class = "panel_redirect">
-      <a href="{% url 'create_panel' %}">
-          <button type="submit" value = "create"> Go to
-              Panel Table </button>
-      </a>
-    </div>
+<div class = "panel_redirect">
+  <a href="{% url 'create_panel' %}">
+      <button type="submit" value = "create"> Go to
+          Panel Table </button>
+  </a>
+</div>
 
 {#<form method="post" name="antibody">#}
 {#  {% csrf_token %}#}
@@ -36,7 +38,7 @@
     <table id ="antibody-table" class = "table">
     <thead>
         <tr>
-            <th><input type="checkbox" id="select-all"></th>
+            <th><input type="checkbox" id="select-all" name="select-all"></th>
             <th>Name</th>
             <th>Target Antigen</th>
             <th>Host Species</th>
@@ -84,6 +86,10 @@
 
     </tbody>
 </table>
+
+  {{ form.as_table}}
+
+<input type="submit" value = "Create Panel">
 </form>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
