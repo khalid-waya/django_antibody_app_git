@@ -37,3 +37,7 @@ class Panelform (forms.ModelForm):
     class Meta:
         model = Panel
         fields = ['panel_name']
+class PanelAntibodyform (forms.ModelForm):
+    class Meta:
+        model = PanelAntibody
+        fields = ['panel', 'antibody', 'ab_dilution' ]

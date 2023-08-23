@@ -12,6 +12,7 @@ urlpatterns = [
     path('update_reactivity/<ab_instance_id>/', views.update_reactivity, name='update_reactivity'),
     path('delete_reactivity/<reactivity_id>/', views.delete_reactivity, name='delete_reactivity'),
     path('create_panel/', views.create_panel, name = 'create_panel'),
+    path('update_panel/<panel_id>/', views.update_panel, name = 'update_panel'),
 
 
 ]

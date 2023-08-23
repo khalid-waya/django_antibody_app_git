@@ -28,6 +28,12 @@ class AntibodyTable(tables.Table):
         fields = ( 'checkbox','name', 'target_antigen', 'host_species', 'ab_type', 'isotype', 'clone', 'fluorophore', 'metal_tag', 'other_tag', 'supplier', 'catalogue_num', 'reactivities')
 
 class PanelTable(tables.Table):
+    update = tables.LinkColumn(
+        'update_panel',
+        args=[A("panel_id")],
+        text="Update Panel",
+
+    )
     class Meta:
         model = Panel
         templates: "django_tables2/bootstrap.html"

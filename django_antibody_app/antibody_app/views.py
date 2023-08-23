@@ -174,3 +174,7 @@ def create_panel (request):
     table = PanelTable(filter.qs)
 
     return render(request, 'create_panel.html', {'table': table, 'filter': filter})
+def update_panel(request, panel_id):
+    panel = get_object_or_404(Panel, pk = panel_id)
+
+    return render(request, 'update_panel.html')
