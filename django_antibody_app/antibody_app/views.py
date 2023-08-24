@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 import os
 from antibody_app.services.upload import *
-from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms, Panelform
+from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms, Panelform, PanelAntibodyform
 from antibody_app.services.tables import AntibodyTable, PanelTable
 from .models import *
 from .services.filters import AntibodyFilter, PanelFilter
@@ -176,5 +176,22 @@ def create_panel (request):
     return render(request, 'create_panel.html', {'table': table, 'filter': filter})
 def update_panel(request, panel_id):
     panel = get_object_or_404(Panel, pk = panel_id)
+    ab_panel_formset = modelformset_factory(PanelAntibody, form= PanelAntibodyform, extra=0)
+    qs = panel.panelantibody_set.all()
+    # print(qs.values())
 
-    return render(request, 'update_panel.html')
+    if request.method == 'POST':
+
+
+        formset = ab_panel_formset( request.POST, queryset= qs)
+
+        if 'update-form' in request.POST:
+            print("test")
+            if formset.is_valid():
+                print("works")
+                formset.save()
+                return redirect('create_panel')
+    else:
+        formset = ab_panel_formset(queryset=qs)
+
+    return render(request, 'update_panel.html',{'formset': formset, 'pk': panel_id, 'panel': panel})

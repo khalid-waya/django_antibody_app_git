@@ -8,4 +8,16 @@ Update Panel
 <div id="return">
     <a href="{% url 'create_panel' %}" class="return_to_create_panel">Click to Return to Previous page</a>
 </div>
+<h2>Update Panel For: {{ panel.panel_name }}</h2>
+    <form class = "form_container" method="post">
+                {% csrf_token %}
+            {{ formset.management_form }}
+            {% for ab_panel in formset %}
+                <div class="antibody-form">
+                    {{ ab_panel.as_table }}
+                </div>
+            {% endfor %}
+
+            <input id="update-form" name = 'update-form' type="submit" value= "update"/>
+    </form>
 {% endblock %}

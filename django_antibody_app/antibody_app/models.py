@@ -20,6 +20,8 @@ class Panel(models.Model):
         managed = False
         db_table = 'panel'
 
+    def __str__(self):
+        return f"{self.panel_name}"
 
 
 class AbSpeciesReactivity(models.Model):
@@ -198,7 +200,7 @@ class PanelAntibody(models.Model):
         db_table = 'panel_antibody'
 
     def __str__(self):
-        return self.panel.panel_name
+        return f"{self.panel} - {self.antibody}"
 
 
 class PanelAssay(models.Model):

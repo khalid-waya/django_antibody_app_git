@@ -11,7 +11,7 @@ Update Reactivity
 <h2>Update Reactivity For: {{ antibody.name }}</h2>
 
 <form id="form-container" method="post">
-  {% csrf_token %}
+{% csrf_token %}
 
   {% if formset.forms %}
     {% for reactivity in formset %}
