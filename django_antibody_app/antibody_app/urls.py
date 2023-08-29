@@ -15,5 +15,6 @@ urlpatterns = [
     path('update_panel/<panel_id>/', views.update_panel, name = 'update_panel'),
 
 
+
 ]
 

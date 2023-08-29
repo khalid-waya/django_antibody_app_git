@@ -38,3 +38,5 @@ class PanelTable(tables.Table):
         model = Panel
         templates: "django_tables2/bootstrap.html"
         fields = ("panel_name", "owner", "is_public", "application", "antibodies")
+
+

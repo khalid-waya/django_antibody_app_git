@@ -37,6 +37,13 @@ class Panelform (forms.ModelForm):
     class Meta:
         model = Panel
         fields = ['panel_name']
+class PanelUpdateform (forms.ModelForm):
+    class Meta:
+        model = Panel
+        fields = ['panel_name', 'is_public', 'application']
+
+
+
 class PanelAntibodyform (forms.ModelForm):
     class Meta:
         model = PanelAntibody

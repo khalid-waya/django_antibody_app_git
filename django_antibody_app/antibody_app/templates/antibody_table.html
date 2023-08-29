@@ -10,6 +10,8 @@
 
 {% block content %}
 
+ <a href="{% url 'welcome' %}" class = "access_form_button" > Click to Go to Home Page</a>
+
 <h1>Antibody Data Table</h1>
 
 <form action="" method="get" class="form form-inline">
@@ -30,11 +32,6 @@
           Panel Table </button>
   </a>
 </div>
-
-{#<form method="post" name="antibody">#}
-{#  {% csrf_token %}#}
-{#    {% render_table table 'django_tables2/bootstrap.html' %}#}
-{#</form>#}
 
 
 <form id ="antibody-form" method = "post">

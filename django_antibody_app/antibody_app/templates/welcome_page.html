@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}
-Welcome to Antibody App
+Welcome
 {% endblock %}
 
 
 {% block content %}
 <div id = "welcome">
-    <h1 id = 'message'>Hello There!!!</h1>
+    <h1 id = 'message'>Antibody Application </h1>
     <a href="{% url 'create_antibody' %}" class = "access_form_button" > Click to Go to Form</a>
     </div>
     <div id="redirect_to_antibody_table">
@@ -14,10 +14,10 @@ Welcome to Antibody App
 </div>
 </div>
 
-    <form method="post">
+ {% comment %}   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
 
-</form>
+</form>{% endcomment %}
 
 {% endblock %}

@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load django_tables2 %}
+{% load bootstrap5 %}
 {% block title %}
 Update Panel
 {% endblock %}
@@ -10,14 +12,61 @@ Update Panel
 </div>
 <h2>Update Panel For: {{ panel.panel_name }}</h2>
     <form class = "form_container" method="post">
-                {% csrf_token %}
-            {{ formset.management_form }}
-            {% for ab_panel in formset %}
-                <div class="antibody-form">
-                    {{ ab_panel.as_table }}
-                </div>
-            {% endfor %}
-
-            <input id="update-form" name = 'update-form' type="submit" value= "update"/>
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" name = "update-panel-details" value="Update Details"/>
     </form>
+
+  <table id ="antibody-table" class = "table">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="select-all" name="select-all"></th>
+            <th>Name</th>
+            <th>Target Antigen</th>
+            <th>Host Species</th>
+            <th>Ab Type</th>
+            <th>Isotype </th>
+            <th>Clone</th>
+            <th>flourophore</th>
+            <th>Metal Tag</th>
+            <th>Other Tag</th>
+            <th>Supplier </th>
+            <th>Catalogue</th>
+            <th>Reactivities</th>
+            <th>Update</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for antibody in filter.qs %}
+            <tr>
+               <td><input type="checkbox" class="record-checkbox" name="selected_antibody" value="{{ antibody.ab_instance_id }}"></td>
+              <td>{{ antibody.name }}</td>
+              <td>{{ antibody.target_antigen }}</td>
+              <td>{{ antibody.host_species }}</td>
+              <td>{{ antibody.ab_type }}</td>
+              <td>{{ antibody.isotype }}</td>
+              <td>{{ antibody.clone }}</td>
+              <td>{{ antibody.flourophore }}</td>
+              <td>{{ antibody.metal_tag }}</td>
+              <td>{{ antibody.other_tag }}</td>
+              <td>{{ antibody.supplier	 }}</td>
+              <td>{{ antibody.catalogue	 }}</td>
+                 <td>
+                        <ol type="i">
+                            {% for reactivity in antibody.reactivities.all %}
+                                <li>{{ reactivity }}</li>
+                            {% endfor %}
+                        </ol>
+                </td>
+              <td><a href="{% url 'update_reactivity' antibody.ab_instance_id %}">Update Reactivity</a></td>
+             </tr>
+        {% endfor %}
+
+
+
+    </tbody>
+</table>
+
 {% endblock %}

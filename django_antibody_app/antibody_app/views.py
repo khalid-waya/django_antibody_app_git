@@ -2,12 +2,14 @@ import json
 import tempfile
 import django_tables2 as tables
 from django.forms import modelformset_factory
-from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from django.shortcuts import render, redirect, get_object_or_404
 import os
 from antibody_app.services.upload import *
-from .forms import antibodyForm, FluorophoreForm, MetalTagForm, OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms, Panelform, PanelAntibodyform
+from .forms import antibodyForm, FluorophoreForm, MetalTagForm,\
+    OtherTagForm, ExcelUploadForm, AbSpeciesReactivityForms, \
+    Panelform, PanelAntibodyform, PanelUpdateform
 from antibody_app.services.tables import AntibodyTable, PanelTable
 from .models import *
 from .services.filters import AntibodyFilter, PanelFilter
@@ -131,7 +133,7 @@ def update_reactivity(request, ab_instance_id):
     antibody = get_object_or_404(Antibody, pk=ab_instance_id) #obtain the instance of 'antibody' that you wan to update
 
     #Creates a model formset factory with no extra fields for AbSpeciesReactivity using AbSpeciesReactivityForms
-    reactivityform_set = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=0)
+    reactivityform_set = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, fields=('species_reactivity','reactivity_tested'),extra=0)
 
     #Fetch all AbSpeciesReactivity instances for the antibody using the query sert
     qs = antibody.abspeciesreactivity_set.all()
@@ -142,7 +144,7 @@ def update_reactivity(request, ab_instance_id):
         if 'new-form' in request.POST:
             print("1")
             initial_data = [{'antibody': antibody}]
-            reactivityform_set = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, extra=1)
+            reactivityform_set = modelformset_factory(AbSpeciesReactivity, form=AbSpeciesReactivityForms, fields=('species_reactivity','reactivity_tested'),extra=1)
             qs = antibody.abspeciesreactivity_set.all()
 
             formset = reactivityform_set(queryset= qs, initial = initial_data)
@@ -175,23 +177,36 @@ def create_panel (request):
 
     return render(request, 'create_panel.html', {'table': table, 'filter': filter})
 def update_panel(request, panel_id):
-    panel = get_object_or_404(Panel, pk = panel_id)
-    ab_panel_formset = modelformset_factory(PanelAntibody, form= PanelAntibodyform, extra=0)
-    qs = panel.panelantibody_set.all()
-    # print(qs.values())
+    panel = get_object_or_404(Panel, pk=panel_id)
 
-    if request.method == 'POST':
+    try:
+        if panel:
+            queryset = panel.antibodies.all()
+            filter = AntibodyFilter(request.GET, queryset=queryset)
+            table = AntibodyTable(filter.qs)
+            if request.method == "POST":
+                form = PanelUpdateform(request.POST, instance=panel)
+                if 'update-panel-details' in request.POST:
+                    if form.is_valid():
+                        form.save()
+                        print("It works")
+                        return redirect('update_panel',panel_id=panel_id)# Redirect to the desired page after updating
+            else:
+                initial_data = {
+                    'panel_name': panel.panel_name,
+                    'is_public': panel.is_public,
+                    'application': panel.application,
+                }
+                form = PanelUpdateform(initial=initial_data)
+
+            context_data = {'panel': panel, 'form': form, 'table': table, 'filter': filter}
+    except Panel.DoesNotExist:
+        print("The object does not exist or was not retrieved")
+        return redirect('create_panel')  # Redirect to the desired page if the panel doesn't exist
+
+    return render(request, 'update_panel.html', context=context_data)
 
 
-        formset = ab_panel_formset( request.POST, queryset= qs)
 
-        if 'update-form' in request.POST:
-            print("test")
-            if formset.is_valid():
-                print("works")
-                formset.save()
-                return redirect('create_panel')
-    else:
-        formset = ab_panel_formset(queryset=qs)
 
-    return render(request, 'update_panel.html',{'formset': formset, 'pk': panel_id, 'panel': panel})
+

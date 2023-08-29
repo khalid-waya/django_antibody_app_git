@@ -72,7 +72,7 @@ class Antibody(models.Model):
         unique_together = (('name', 'host_species', 'clone', 'fluorophore'),)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} "
 class AntibodyAssay(models.Model):
     ab_assay_id = models.AutoField(primary_key=True)
     assay = models.ForeignKey('Assay', models.PROTECT, db_column='assay')
